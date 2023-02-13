@@ -1,13 +1,13 @@
-package com.bnaqica.applicationinjestion;
+package com.bnaqica.applicationingestion;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ApplicationInjestionApplication {
+public class ApplicationIngestionApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ApplicationInjestionApplication.class, args);
+		SpringApplication.run(ApplicationIngestionApplication.class, args);
 	}
 
 }
