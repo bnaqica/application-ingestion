@@ -1,3 +1,77 @@
 spring:
   application:
     name: application-ingestion-service
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://cognito-idp.us-east-2.amazonaws.com/
+  autoconfigure:
+    exclude:
+      - org.springframework.cloud.aws.autoconfigure.context.ContextStackAutoConfiguration
+      - org.springframework.cloud.aws.autoconfigure.context.ContextRegionProviderAutoConfiguration
+  cloud:
+    aws:
+      s3:
+        contentTypeAllowed: application/pdf
+        maxSize: 10000000
+      sqs:
+        create_applicant_response: create-applicant-response-application-ingestion-svc
+      sns:
+        create_applicant_request: create-applicant-request
+
+  flyway:
+    enabled: true
+    schemas: public
+    locations: classpath:/db/migration
+    baseline-on-migrate: true
+
+  jpa:
+    database: POSTGRESQL
+    show-sql: false
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        default_schema: public
+
+  output:
+    ansi:
+      enabled: ALWAYS
+
+springdoc:
+  api-docs:
+    path: /api-docs
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+  endpoint:
+    info:
+      enabled: true
+    flyway:
+      enabled: true
+    env:
+      enabled: true
+
+server:
+  port: 2702
+
+applicant-orchestrator:
+  allowed:
+    origins: http://localhost:9000
+    headers: "*"
+    methods: GET,POST,PUT,DELETE,PATCH,OPTIONS
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+    com.zaxxer.hikari: WARN
+    com.refijet.myyesgo: DEBUG
+    org.springframework.vault: DEBUG
+    com.amazonaws.util.EC2MetadataUtils: ERROR
